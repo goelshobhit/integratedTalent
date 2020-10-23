@@ -1,28 +1,53 @@
 /**
  *
- * App.js
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
+ * App
  *
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
 
-import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
+import makeSelectApp from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+import messages from './messages';
 
-import GlobalStyle from '../../global-styles';
+export function App() {
+  useInjectReducer({ key: 'app', reducer });
+  useInjectSaga({ key: 'app', saga });
 
-export default function App() {
   return (
     <div>
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-      <GlobalStyle />
+      <Helmet>
+        <title>App</title>
+        <meta name="description" content="Description of App" />
+      </Helmet>
+      <FormattedMessage {...messages.header} />
     </div>
   );
 }
+
+App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  app: makeSelectApp(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withConnect)(App);
