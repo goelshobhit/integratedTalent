@@ -7,29 +7,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import { Switch, Route } from 'react-router-dom';
+
+import HomePage from 'containers/HomePage/Loadable';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import ResponsiveDrawer from 'components/ResponsiveDrawer';
+
+import GlobalStyle from '../../global-styles';
 import makeSelectApp from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
+import './style.css';
 
 export function App() {
   useInjectReducer({ key: 'app', reducer });
   useInjectSaga({ key: 'app', saga });
 
   return (
-    <div>
-      <Helmet>
-        <title>App</title>
-        <meta name="description" content="Description of App" />
-      </Helmet>
-      <FormattedMessage {...messages.header} />
+    <div className="app__image">
+      <div className="container pt-5 pb-5 min-vh-100">
+        <ResponsiveDrawer />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+        <GlobalStyle />
+      </div>
     </div>
   );
 }

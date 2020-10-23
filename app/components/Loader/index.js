@@ -1,6 +1,6 @@
 /**
  *
- * HomePage
+ * Loader
  *
  */
 
@@ -11,7 +11,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-function HomePage() {
+function Loader() {
   return (
     <div>
       <FormattedMessage {...messages.header} />
@@ -19,6 +19,6 @@ function HomePage() {
   );
 }
 
-HomePage.propTypes = {};
+Loader.propTypes = {};
 
-export default HomePage;
+export default Loader;

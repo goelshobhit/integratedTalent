@@ -1,0 +1,8 @@
+.app__image {
+  background-image: url('../../images/Headerimage/Godfather_header.jpg');
+  height: 20vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: contain;
+}
